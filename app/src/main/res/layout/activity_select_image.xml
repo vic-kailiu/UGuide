@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.kai.uguide.SelectImageActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/or"
+        android:id="@+id/or"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:background="@drawable/dot"
+        android:paddingLeft="4dp"
+        android:paddingBottom="3dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/camera"
+        android:id="@+id/camera"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/or"
+        android:background="@drawable/l_button"
+        android:singleLine="false"
+        android:textColor="@color/white"
+        android:onClick="on_camera_click" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gallery"
+        android:id="@+id/gallery"
+        android:layout_alignBottom="@+id/camera"
+        android:layout_toRightOf="@+id/or"
+        android:background="@drawable/r_button"
+        android:textColor="@color/white"
+        android:onClick="on_gallery_click" />
+
+</RelativeLayout>
