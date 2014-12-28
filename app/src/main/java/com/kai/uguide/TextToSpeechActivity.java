@@ -1,37 +1,23 @@
 package com.kai.uguide;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Locale;
+import com.kai.uguide.utils.NuanceTTS;
+import com.nuance.nmdp.speechkit.SpeechError;
+import com.nuance.nmdp.speechkit.Vocalizer;
 
-/**
- * <p>Demonstrates text-to-speech (TTS). Please note the following steps:</p>
- *
- * <ol>
- * <li>Construct the TextToSpeech object.</li>
- * <li>Handle initialization callback in the onInit method.
- * The activity implements TextToSpeech.OnInitListener for this purpose.</li>
- * <li>Call TextToSpeech.speak to synthesize speech.</li>
- * <li>Shutdown TextToSpeech in onDestroy.</li>
- * </ol>
- *
- * <p>Documentation:
- * http://developer.android.com/reference/android/speech/tts/package-summary.html
- * </p>
- * <ul>
- */
-public class TextToSpeechActivity extends Activity implements TextToSpeech.OnInitListener {
+public class TextToSpeechActivity extends Activity implements Vocalizer.Listener {
 
-    private static final String TAG = "TextToSpeechDemo";
-
-    private TextToSpeech mTts;
     private Button mAgainButton;
     private String message;
+
+    private Vocalizer _vocalizer;
+    private Object _ttsContext = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,11 +26,14 @@ public class TextToSpeechActivity extends Activity implements TextToSpeech.OnIni
 
         message = (String) getIntent().getStringExtra("text");
 
-        // Initialize text-to-speech. This is an asynchronous operation.
-        // The OnInitListener (second argument) is called after initialization completes.
-        mTts = new TextToSpeech(this,
-                this  // TextToSpeech.OnInitListener
-        );
+
+        Context context = getApplicationContext();
+        //TODO:could move it to splash maybe
+        NuanceTTS.SetUpNuanceTTS(context);
+
+        // Create a single Vocalizer here.
+        _vocalizer = NuanceTTS.getSpeechKit().createVocalizerWithLanguage("en_US", this, new Handler());
+        _vocalizer.setVoice("Ava");
 
         // The button is disabled in the layout.
         // It will be enabled upon initialization of the TTS engine.
@@ -52,56 +41,45 @@ public class TextToSpeechActivity extends Activity implements TextToSpeech.OnIni
 
         mAgainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sayHello();
+                _ttsContext = new Object();
+                _vocalizer.speakString(message, _ttsContext);
             }
         });
     }
 
     @Override
-    public void onDestroy() {
-        // Don't forget to shutdown!
-        if (mTts != null) {
-            mTts.stop();
-            mTts.shutdown();
-        }
-
+    protected void onDestroy() {
         super.onDestroy();
-    }
-
-    // Implements TextToSpeech.OnInitListener.
-    public void onInit(int status) {
-        // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
-        if (status == TextToSpeech.SUCCESS) {
-            // Set preferred language to US english.
-            // Note that a language may not be available, and the result will indicate this.
-            int result = mTts.setLanguage(Locale.US);
-            // Try this someday for some interesting results.
-            // int result mTts.setLanguage(Locale.FRANCE);
-            if (result == TextToSpeech.LANG_MISSING_DATA ||
-                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                // Lanuage data is missing or the language is not supported.
-                Log.e(TAG, "Language is not available.");
-            } else {
-                // Check the documentation for other possible result codes.
-                // For example, the language may be available for the locale,
-                // but not for the specified country and variant.
-
-                // The TTS engine has been successfully initialized.
-                // Allow the user to press the button for the app to speak again.
-                mAgainButton.setEnabled(true);
-                // Greet the user.
-                sayHello();
-            }
-        } else {
-            // Initialization failed.
-            Log.e(TAG, "Could not initialize TextToSpeech.");
+        if (_vocalizer != null)
+        {
+            _vocalizer.cancel();
+            _vocalizer = null;
         }
+        NuanceTTS.Destroy();
     }
 
-    private void sayHello() {
-        if (message != null)
-        mTts.speak(message,
-                TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                null);
+    @Override
+    public void onSpeakingBegin(Vocalizer vocalizer, String text, Object context) {
+        //updateCurrentText("Playing text: \"" + text + "\"", Color.GREEN, false);
+        // for debugging purpose: printing out the speechkit session id
+        android.util.Log.d("Nuance SampleVoiceApp", "Vocalizer.Listener.onSpeakingBegin: session id ["
+                + NuanceTTS.getSpeechKit().getSessionId() + "]");
+    }
+
+    @Override
+    public void onSpeakingDone(Vocalizer vocalizer,
+                               String text, SpeechError error, Object context)
+    {
+        // Use the context to detemine if this was the final TTS phrase
+        if (context != _ttsContext)
+        {
+            //updateCurrentText("More phrases remaining", Color.YELLOW, false);
+        } else
+        {
+            //updateCurrentText("", Color.YELLOW, false);
+        }
+        // for debugging purpose: printing out the speechkit session id
+        android.util.Log.d("Nuance SampleVoiceApp", "Vocalizer.Listener.onSpeakingDone: session id ["
+                + NuanceTTS.getSpeechKit().getSessionId() + "]");
     }
 }

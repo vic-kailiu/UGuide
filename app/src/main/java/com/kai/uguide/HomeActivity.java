@@ -22,7 +22,7 @@ public class HomeActivity extends Activity {
 //        anim = AnimationUtils.loadAnimation(getApplicationContext(),
 //                R.anim.blink);
 //        img.startAnimation(anim);
-        ImageView svgView = (ImageView) findViewById(R.id.SvgView);
+        //ImageView svgView = (ImageView) findViewById(R.id.SvgView);
 
 
         int foo = 1;
