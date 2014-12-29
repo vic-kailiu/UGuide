@@ -9,7 +9,7 @@
     <string name="return_btn">Return</string>
     <string name="recsucc">Rec Succeedded!</string>
     <string name="recres">Rec Result</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash">UGuide</string>
     <string name="logo">logo</string>
     <string name="splashString">some stupid text</string>
 

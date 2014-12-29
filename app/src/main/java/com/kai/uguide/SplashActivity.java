@@ -6,14 +6,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.easing.Glider;
+import com.daimajia.easing.Skill;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
 
 public class SplashActivity extends Activity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_LogoOut = 5000;
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_Logo = 1500;
+    private static int SPLASH_TIME_LogoBackOut = 1000;
+    private static int SPLASH_TIME_OUT = 10000;
 
     ImageView img;
     Animation animFadein;
@@ -31,19 +39,28 @@ public class SplashActivity extends Activity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-//        img = (ImageView) findViewById(R.id.logo_fore_hp);
-//        animFadein = AnimationUtils.loadAnimation(getApplicationContext(),
-//                R.anim.fade_in);
-//
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                img.startAnimation(animFadein);
-////                YoYo.with(Techniques.FadeOutDown)
-////                        .duration(1700)
-////                        .playOn(findViewById(R.id.logo_fore_hp));
-//            }
-//        }, SPLASH_TIME_LogoOut);
+
+        final AnimatorSet set = new AnimatorSet();
+        ValueAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.logo), "translationX", 0, 95);
+        set.playTogether(
+                Glider.glide(Skill.QuadEaseIn, 1000, animator)
+                );
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.FadeOutDown)
+                        .duration(1700)
+                        .playOn(findViewById(R.id.logo_fore_hp_shadow));
+            }
+        }, SPLASH_TIME_LogoBackOut);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                set.setDuration(1000);
+                set.start();
+            }
+        }, SPLASH_TIME_Logo);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +70,5 @@ public class SplashActivity extends Activity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
-
-        //img.startAnimation(animFadein);
     }
 }

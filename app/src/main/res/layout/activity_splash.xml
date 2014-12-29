@@ -15,8 +15,20 @@
         android:background="@null" />
 
     <ImageView
+        android:id="@+id/logo"
+        android:src="@drawable/earth_w"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_above="@+id/fakeView"
+        android:layout_toLeftOf="@+id/fakeView"
+        android:contentDescription="@string/logo_fore_earth"
+        android:layout_marginBottom="-50dp"
+        android:layout_marginRight="-4dp"
+        android:layout_alignParentTop="false" />
+
+    <ImageView
         android:id="@+id/logo_fore_hp_shadow"
-        android:src="@drawable/logo_f_b_shadow"
+        android:src="@drawable/logo_f_b"
         android:layout_width="231dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/logo_fore_hp"
@@ -28,26 +40,5 @@
         android:layout_marginBottom="-133dp"
         android:layout_marginRight="-133dp"
         android:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/logo"
-        android:src="@drawable/earth_w"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_above="@+id/fakeView"
-        android:layout_toLeftOf="@+id/fakeView"
-        android:contentDescription="@string/logo_fore_earth"
-        android:layout_marginBottom="-50dp"
-        android:layout_marginRight="-4dp" />
-
-    <ImageView
-        android:id="@+id/logo_fore_hp"
-        android:src="@drawable/logo_f_b"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/logo_fore_hp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:adjustViewBounds="true" />
 
 </RelativeLayout>
