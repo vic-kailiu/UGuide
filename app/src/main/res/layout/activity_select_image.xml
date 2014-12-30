@@ -143,10 +143,4 @@
         app:fab_colorNormal="@color/accentLight"
         app:fab_colorPressed="@color/accent" />
 
-    <com.kai.uguide.SmallCircleView
-        android:id="@+id/select_button"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:visibility="gone" />
-
 </FrameLayout>
