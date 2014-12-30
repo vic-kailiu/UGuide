@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
     // Splash screen timer
     private static int SPLASH_TIME_Logo = 1500;
     private static int SPLASH_TIME_LogoBackOut = 1000;
-    private static int SPLASH_TIME_OUT = 10000;
+    private static int SPLASH_TIME_OUT = 5000;
 
     ImageView img;
     Animation animFadein;

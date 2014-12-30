@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/flexible_space_image_height"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg" />
+        android:src="@drawable/bg"
+        android:contentDescription="bg" />
 
     <View
         android:id="@+id/overlay"
@@ -141,4 +142,11 @@
         android:scaleType="center"
         app:fab_colorNormal="@color/accentLight"
         app:fab_colorPressed="@color/accent" />
+
+    <com.kai.uguide.SmallCircleView
+        android:id="@+id/select_button"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:visibility="gone" />
+
 </FrameLayout>

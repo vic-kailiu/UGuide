@@ -39,6 +39,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private ObservableScrollView mScrollView;
     private TextView mTitleView;
     private View mFab;
+    private View selectButton;
     private int mActionBarSize;
     private int mFlexibleSpaceShowFabOffset;
     private int mFlexibleSpaceImageHeight;
@@ -74,9 +75,12 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         mTitleView.setText(getTitle());
         setTitle(null);
         mFab = findViewById(R.id.fab);
+        selectButton = findViewById(R.id.select_button);
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         ViewHelper.setScaleX(mFab, 0);
         ViewHelper.setScaleY(mFab, 0);
+        ViewHelper.setScaleX(selectButton, 0);
+        ViewHelper.setScaleY(selectButton, 0);
 
         ViewTreeObserver vto = mScrollView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -219,7 +223,9 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         int fabTranslationY = Math.max(mActionBarSize - mFab.getHeight() / 2,
                 Math.min(maxFabTranslationY, -scrollY + mFlexibleSpaceImageHeight - mFab.getHeight() / 2));
         ViewHelper.setTranslationX(mFab, mOverlayView.getWidth() - mFabMargin - mFab.getWidth());
+        ViewHelper.setTranslationX(selectButton, mOverlayView.getWidth() - mFabMargin - mFab.getWidth() / 2 - selectButton.getWidth());
         ViewHelper.setTranslationY(mFab, fabTranslationY);
+        ViewHelper.setTranslationY(selectButton, fabTranslationY + mFab.getHeight() / 2);
 
         // Show/hide FAB
         if (ViewHelper.getTranslationY(mFab) < mFlexibleSpaceShowFabOffset) {
@@ -266,7 +272,9 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private void showFab() {
         if (!mFabIsShown) {
             ViewPropertyAnimator.animate(mFab).cancel();
+            ViewPropertyAnimator.animate(selectButton).cancel();
             ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
+            ViewPropertyAnimator.animate(selectButton).scaleX(1).scaleY(1).setDuration(200).start();
             mFabIsShown = true;
         }
     }
@@ -274,7 +282,9 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private void hideFab() {
         if (mFabIsShown) {
             ViewPropertyAnimator.animate(mFab).cancel();
+            ViewPropertyAnimator.animate(selectButton).cancel();
             ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
+            ViewPropertyAnimator.animate(selectButton).scaleX(0).scaleY(0).setDuration(200).start();
             mFabIsShown = false;
         }
     }
