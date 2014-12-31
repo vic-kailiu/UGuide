@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -15,10 +17,16 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.astuetz.viewpager.extensions.FixedTabsView;
+import com.astuetz.viewpager.extensions.TabsAdapter;
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.kai.uguide.utils.FileUtils;
+import com.kai.uguide.viewpageradapter.ExamplePagerAdapter;
+import com.kai.uguide.viewpageradapter.FixedIconTabsAdapter;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -30,25 +38,27 @@ import java.util.Date;
 
 public class SelectImageActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_GALLERY = 2;
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
     private static final boolean TOOLBAR_IS_STICKY = false;
-
     private View mToolbar;
     private View mImageView;
     private View mOverlayView;
     private ObservableScrollView mScrollView;
     private TextView mTitleView;
-    private View mFab;
-    private View selectButton;
+    private FloatingActionsMenu mFab;
+    private AddFloatingActionButton mAddbutton;
     private int mActionBarSize;
     private int mFlexibleSpaceShowFabOffset;
     private int mFlexibleSpaceImageHeight;
     private int mFabMargin;
     private int mToolbarColor;
     private boolean mFabIsShown;
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_IMAGE_GALLERY = 2;
+    private ViewPager mPager;
+    private FixedTabsView mFixedTabs;
+    private PagerAdapter mPagerAdapter;
+    private TabsAdapter mFixedTabsAdapter;
     private String mCurrentPhotoPath;
 
     @Override
@@ -74,13 +84,20 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         mTitleView = (TextView) findViewById(R.id.title);
         mTitleView.setText(getTitle());
         setTitle(null);
-        mFab = findViewById(R.id.fab);
-        selectButton = findViewById(R.id.select_button);
+        mFab = (FloatingActionsMenu) findViewById(R.id.fab);
+        mAddbutton = (AddFloatingActionButton) findViewById(R.id.fab_expand_menu_button);
+        mAddbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+            }
+        });
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         ViewHelper.setScaleX(mFab, 0);
         ViewHelper.setScaleY(mFab, 0);
-        ViewHelper.setScaleX(selectButton, 0);
-        ViewHelper.setScaleY(selectButton, 0);
 
         ViewTreeObserver vto = mScrollView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -105,6 +122,20 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
                 //mScrollView.scrollTo(0, 0);
             }
         });
+
+        initViewPager(3, 0xFFFFFFFF, 0xFF000000);
+        mFixedTabs = (FixedTabsView) findViewById(R.id.fixed_icon_tabs);
+        mFixedTabsAdapter = new FixedIconTabsAdapter(this);
+        mFixedTabs.setAdapter(mFixedTabsAdapter);
+        mFixedTabs.setViewPager(mPager);
+    }
+
+    private void initViewPager(int pageCount, int backgroundColor, int textColor) {
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ExamplePagerAdapter(this, pageCount, backgroundColor, textColor);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
+        mPager.setPageMargin(1);
     }
 
     public void on_camera_click(View view) {
@@ -219,13 +250,13 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
 
         // Translate FAB
-        int maxFabTranslationY = mFlexibleSpaceImageHeight - mFab.getHeight() / 2;
-        int fabTranslationY = Math.max(mActionBarSize - mFab.getHeight() / 2,
-                Math.min(maxFabTranslationY, -scrollY + mFlexibleSpaceImageHeight - mFab.getHeight() / 2));
+        mFab.collapse();
+
+        int maxFabTranslationY = mFlexibleSpaceImageHeight;// - mFab.getHeight() / 2;
+        int fabTranslationY = Math.max(mActionBarSize,// - mFab.getHeight() / 2,
+                Math.min(maxFabTranslationY, -scrollY + mFlexibleSpaceImageHeight));// - mFab.getHeight() / 2));
         ViewHelper.setTranslationX(mFab, mOverlayView.getWidth() - mFabMargin - mFab.getWidth());
-        ViewHelper.setTranslationX(selectButton, mOverlayView.getWidth() - mFabMargin - mFab.getWidth() / 2 - selectButton.getWidth());
-        ViewHelper.setTranslationY(mFab, fabTranslationY);
-        ViewHelper.setTranslationY(selectButton, fabTranslationY + mFab.getHeight() / 2);
+        ViewHelper.setTranslationY(mFab, fabTranslationY - mFab.getHeight() + 56);
 
         // Show/hide FAB
         if (ViewHelper.getTranslationY(mFab) < mFlexibleSpaceShowFabOffset) {
@@ -272,9 +303,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private void showFab() {
         if (!mFabIsShown) {
             ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(selectButton).cancel();
             ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
-            ViewPropertyAnimator.animate(selectButton).scaleX(1).scaleY(1).setDuration(200).start();
             mFabIsShown = true;
         }
     }
@@ -282,9 +311,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private void hideFab() {
         if (mFabIsShown) {
             ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(selectButton).cancel();
             ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
-            ViewPropertyAnimator.animate(selectButton).scaleX(0).scaleY(0).setDuration(200).start();
             mFabIsShown = false;
         }
     }

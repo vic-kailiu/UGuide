@@ -50,8 +50,7 @@ public class TextToSpeechActivity extends Activity implements Vocalizer.Listener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (_vocalizer != null)
-        {
+        if (_vocalizer != null) {
             _vocalizer.cancel();
             _vocalizer = null;
         }
@@ -68,14 +67,11 @@ public class TextToSpeechActivity extends Activity implements Vocalizer.Listener
 
     @Override
     public void onSpeakingDone(Vocalizer vocalizer,
-                               String text, SpeechError error, Object context)
-    {
+                               String text, SpeechError error, Object context) {
         // Use the context to detemine if this was the final TTS phrase
-        if (context != _ttsContext)
-        {
+        if (context != _ttsContext) {
             //updateCurrentText("More phrases remaining", Color.YELLOW, false);
-        } else
-        {
+        } else {
             //updateCurrentText("", Color.YELLOW, false);
         }
         // for debugging purpose: printing out the speechkit session id

@@ -1,2 +1,3 @@
-include ':app', ':libraries:observablescrollview'
-//project(':observablescrollview').projectDir = new File('libraries/observablescrollview')
+include ':app', ':libraries:floatingactionbutton'
+include ':libraries:observablescrollview'
+include ':libraries:ViewPagerExtensions'

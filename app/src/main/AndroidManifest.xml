@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kai.uguide"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -29,19 +29,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".ResultActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
-            android:theme="@style/FullScreen" >
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,21 +48,17 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home" >
-        </activity>
+            android:label="@string/title_activity_home"></activity>
         <activity
             android:name=".SelectImageActivity"
             android:label="@string/title_activity_select_image"
-            android:theme="@style/AppTheme.Toolbar" >
-        </activity>
+            android:theme="@style/AppTheme.Toolbar"></activity>
         <activity
             android:name=".CropImageActivity"
-            android:label="@string/title_activity_crop_image" >
-        </activity>
+            android:label="@string/title_activity_crop_image"></activity>
         <activity
             android:name=".TextToSpeechActivity"
-            android:label="@string/title_activity_text_to_speech" >
-        </activity>
+            android:label="@string/title_activity_text_to_speech"></activity>
     </application>
 
 </manifest>

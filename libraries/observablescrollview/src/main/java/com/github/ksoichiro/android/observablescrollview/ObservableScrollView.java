@@ -206,6 +206,18 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     }
 
     static class SavedState extends BaseSavedState {
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int prevScrollY;
         int scrollY;
 
@@ -231,18 +243,5 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
             out.writeInt(prevScrollY);
             out.writeInt(scrollY);
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }

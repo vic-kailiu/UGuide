@@ -35,45 +35,6 @@ import android.widget.FrameLayout;
  */
 public class TouchInterceptionFrameLayout extends FrameLayout {
 
-    /**
-     * Callbacks for TouchInterceptionFrameLayout.
-     */
-    public interface TouchInterceptionListener {
-        /**
-         * Determines whether the layout should intercept this event.
-         *
-         * @param ev     motion event
-         * @param moving true if this event is ACTION_MOVE type
-         * @param diffX  difference between previous X and current X, if moving is true
-         * @param diffY  difference between previous Y and current Y, if moving is true
-         * @return true if the layout should intercept
-         */
-        boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY);
-
-        /**
-         * Called if the down motion event is intercepted by this layout.
-         *
-         * @param ev motion event
-         */
-        void onDownMotionEvent(MotionEvent ev);
-
-        /**
-         * Called if the move motion event is intercepted by this layout.
-         *
-         * @param ev    motion event
-         * @param diffX difference between previous X and current X
-         * @param diffY difference between previous Y and current Y
-         */
-        void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY);
-
-        /**
-         * Called if the up (or cancel) motion event is intercepted by this layout.
-         *
-         * @param ev motion event
-         */
-        void onUpOrCancelMotionEvent(MotionEvent ev);
-    }
-
     private boolean mIntercepting;
     private boolean mDownMotionEventPended;
     private boolean mBeganFromDownMotionEvent;
@@ -81,7 +42,6 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
     private PointF mInitialPoint;
     private MotionEvent mPendingDownMotionEvent;
     private TouchInterceptionListener mTouchInterceptionListener;
-
     public TouchInterceptionFrameLayout(Context context) {
         super(context);
     }
@@ -282,5 +242,44 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                 }
             }
         }
+    }
+
+    /**
+     * Callbacks for TouchInterceptionFrameLayout.
+     */
+    public interface TouchInterceptionListener {
+        /**
+         * Determines whether the layout should intercept this event.
+         *
+         * @param ev     motion event
+         * @param moving true if this event is ACTION_MOVE type
+         * @param diffX  difference between previous X and current X, if moving is true
+         * @param diffY  difference between previous Y and current Y, if moving is true
+         * @return true if the layout should intercept
+         */
+        boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY);
+
+        /**
+         * Called if the down motion event is intercepted by this layout.
+         *
+         * @param ev motion event
+         */
+        void onDownMotionEvent(MotionEvent ev);
+
+        /**
+         * Called if the move motion event is intercepted by this layout.
+         *
+         * @param ev    motion event
+         * @param diffX difference between previous X and current X
+         * @param diffY difference between previous Y and current Y
+         */
+        void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY);
+
+        /**
+         * Called if the up (or cancel) motion event is intercepted by this layout.
+         *
+         * @param ev motion event
+         */
+        void onUpOrCancelMotionEvent(MotionEvent ev);
     }
 }

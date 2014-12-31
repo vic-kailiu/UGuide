@@ -3,61 +3,68 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical" >
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal" >
-    	<TextView 
-    	    android:id="@+id/resText"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="fill_parent"
-    	    />
+    android:orientation="vertical">
 
-    	<ImageView
-    	    android:id="@+id/resImg"
-    	    android:layout_width="wrap_content"
-    	    android:layout_marginLeft="10dp"
-    	    android:layout_height="120sp"
-    	     />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/resText"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+
+        <ImageView
+            android:id="@+id/resImg"
+            android:layout_width="wrap_content"
+            android:layout_height="120sp"
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
-    <View  android:layout_height="1px" android:background="#0F0F0F"       
-        android:layout_width="fill_parent"></View>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#0F0F0F"></View>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
-    	<TextView
-    	    android:id="@+id/recRes"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:gravity="left"
-    	    android:textSize="20sp"
-    	    android:text="@string/recres" />
-    	<TextView
-    	    android:id="@+id/recmd5"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:textSize="20sp"
-    	    android:gravity="left"
-    	    android:text="" />
-    	<TextView
-    	    android:id="@+id/recPicDesc"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:textSize="20sp"
-    	    android:gravity="left"
-    	    android:text="" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/recRes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/recres"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/recmd5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/recPicDesc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=""
+            android:textSize="20sp" />
 
         <Button
+            android:id="@+id/button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
             android:layout_gravity="center_horizontal"
-            android:onClick="go_to_speak" />
+            android:onClick="go_to_speak"
+            android:text="New Button" />
 
     </LinearLayout>
 </LinearLayout>

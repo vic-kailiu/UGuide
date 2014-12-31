@@ -13,14 +13,6 @@
     <string name="logo">logo</string>
     <string name="splashString">some stupid text</string>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="primary">#00BCD4</color>
-    <color name="primary_dark">#00838F</color>
-    <color name="accent">#eeff41</color>
-    <color name="accentLight">#F4FF81</color>
-    <color name="primary_light">#FFFDE7</color>
-
     <string name="title_activity_home">UGuide</string>
     <string name="lands">lands</string>
     <string name="start_button">start_button</string>

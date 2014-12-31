@@ -22,8 +22,8 @@
     </style>
 
     <style name="FullScreen" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
-<!--        <item name="android:textColorPrimary">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:textColorPrimary">@android:color/transparent</item>
+                <item name="android:navigationBarColor">@android:color/transparent</item>-->
     </style>
 
     <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">

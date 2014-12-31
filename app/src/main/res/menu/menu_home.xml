@@ -1,2 +1,2 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.kai.uguide.HomeActivity"/>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kai.uguide.HomeActivity" />

@@ -324,14 +324,24 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     static class SavedState implements Parcelable {
         public static final SavedState EMPTY_STATE = new SavedState() {
         };
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
 
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int prevFirstVisiblePosition;
         int prevFirstVisibleChildHeight = -1;
         int prevScrolledChildrenHeight;
         int prevScrollY;
         int scrollY;
         SparseIntArray childrenHeights;
-
         // This keeps the parent(RecyclerView)'s state
         Parcelable superState;
 
@@ -401,18 +411,5 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         public Parcelable getSuperState() {
             return superState;
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }

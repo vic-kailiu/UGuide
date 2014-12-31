@@ -46,20 +46,6 @@ public class XmlParser {
         return entries;
     }
 
-    // This class represents a single entry (post) in the XML feed.
-    // It includes the data members "title," "link," and "summary."
-    public static class Entry {
-        public final String title;
-        public final String link;
-        public final String summary;
-
-        private Entry(String title, String summary, String link) {
-            this.title = title;
-            this.summary = summary;
-            this.link = link;
-        }
-    }
-
     // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them
     // off
     // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
@@ -145,6 +131,20 @@ public class XmlParser {
                     depth++;
                     break;
             }
+        }
+    }
+
+    // This class represents a single entry (post) in the XML feed.
+    // It includes the data members "title," "link," and "summary."
+    public static class Entry {
+        public final String title;
+        public final String link;
+        public final String summary;
+
+        private Entry(String title, String summary, String link) {
+            this.title = title;
+            this.summary = summary;
+            this.link = link;
         }
     }
 }
