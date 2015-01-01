@@ -128,20 +128,20 @@ public class FloatingActionsMenu extends ViewGroup {
         };
 
         mAddButton.setId(R.id.fab_expand_menu_button);
-//        mAddButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                toggle();
-//            }
-//        });
-
-        mAddButton.setOnLongClickListener(new OnLongClickListener() {
+        mAddButton.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View v) {
                 toggle();
-                return true;
             }
         });
+
+//        mAddButton.setOnLongClickListener(new OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                toggle();
+//                return true;
+//            }
+//        });
 
         addView(mAddButton, super.generateDefaultLayoutParams());
     }

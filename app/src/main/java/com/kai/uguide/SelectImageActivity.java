@@ -3,6 +3,7 @@ package com.kai.uguide;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.viewpager.extensions.FixedTabsView;
 import com.astuetz.viewpager.extensions.TabsAdapter;
@@ -24,6 +26,12 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.kai.uguide.utils.FileUtils;
 import com.kai.uguide.viewpageradapter.ExamplePagerAdapter;
 import com.kai.uguide.viewpageradapter.FixedIconTabsAdapter;
@@ -55,6 +63,12 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     private int mFabMargin;
     private int mToolbarColor;
     private boolean mFabIsShown;
+
+    // Google Map
+    private GoogleMap googleMap;
+    private final int MAP_ZOOM = 16;
+    private Marker marker;
+
     private ViewPager mPager;
     private FixedTabsView mFixedTabs;
     private PagerAdapter mPagerAdapter;
@@ -86,13 +100,23 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         setTitle(null);
         mFab = (FloatingActionsMenu) findViewById(R.id.fab);
         mAddbutton = (AddFloatingActionButton) findViewById(R.id.fab_expand_menu_button);
-        mAddbutton.setOnClickListener(new View.OnClickListener() {
+//        mAddbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+//            }
+//        });
+        mAddbutton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
                 startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+                return true;
             }
         });
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
@@ -123,11 +147,60 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
             }
         });
 
+
+        try {
+            // Loading map
+            initilizeMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         initViewPager(3, 0xFFFFFFFF, 0xFF000000);
         mFixedTabs = (FixedTabsView) findViewById(R.id.fixed_icon_tabs);
         mFixedTabsAdapter = new FixedIconTabsAdapter(this);
         mFixedTabs.setAdapter(mFixedTabsAdapter);
         mFixedTabs.setViewPager(mPager);
+    }
+
+    /**
+     * function to load map. If map is not created it will create it for you
+     * */
+    private void initilizeMap() {
+        if (googleMap == null) {
+            googleMap = ((MapFragment) getFragmentManager().findFragmentById(
+                    R.id.map)).getMap();
+
+            // check if map is created successfully or not
+            if (googleMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            googleMap.setMyLocationEnabled(true); // false to disable
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+            googleMap.getUiSettings().setRotateGesturesEnabled(false);
+            googleMap.getUiSettings().setZoomGesturesEnabled(false);
+            googleMap.getUiSettings().setScrollGesturesEnabled(false);
+            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                @Override
+                public void onMyLocationChange(Location arg0) {
+                    LatLng pos = new LatLng(arg0.getLatitude(), arg0.getLongitude());
+                    if (marker != null)
+                        marker.remove();
+                    marker = googleMap.addMarker(
+                            new MarkerOptions().position(pos).title("You are here!").flat(true));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos,MAP_ZOOM));
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initilizeMap();
     }
 
     private void initViewPager(int pageCount, int backgroundColor, int textColor) {

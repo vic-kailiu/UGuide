@@ -57,6 +57,12 @@
                 android:background="@color/white"
                 android:text="@string/intro_singapore" />
 
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="500dp">
@@ -184,20 +190,28 @@
         app:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_a"
+            android:id="@+id/profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/white"
             app:fab_colorPressed="@color/white_pressed"
-            app:fab_title="Action A" />
+            app:fab_title="Profile" />i
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_b"
+            android:id="@+id/gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/white"
             app:fab_colorPressed="@color/white_pressed"
-            app:fab_title="Action B" />
+            app:fab_title="Select from Gallery" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_title="Capture via Camera" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
