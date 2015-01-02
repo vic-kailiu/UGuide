@@ -50,18 +50,30 @@
                 android:layout_height="@dimen/flexible_space_image_height"
                 android:background="@android:color/transparent" />
 
-            <TextView
+            <RelativeLayout
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:text="@string/intro_singapore" />
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/sectionViewMinHeight"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/intro_singapore"
+                    android:layout_centerVertical="true" />
+                </RelativeLayout>
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+            <RelativeLayout
+                android:id="@+id/mapView"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/sectionViewMinHeight">
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sectionViewMaxHeight"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -96,49 +108,6 @@
                     android:layout_height="fill_parent"
                     android:layout_below="@+id/shadow" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/or"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/dot"
-                android:paddingBottom="3dp"
-                android:paddingLeft="4dp"
-                android:text="@string/or"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/or"
-                android:background="@drawable/l_button"
-                android:onClick="on_camera_click"
-                android:singleLine="false"
-                android:text="@string/camera"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/camera"
-                android:layout_toRightOf="@+id/or"
-                android:background="@drawable/r_button"
-                android:onClick="on_gallery_click"
-                android:text="@string/gallery"
-                android:textColor="@color/white" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="MBA"
-                android:src="@drawable/example" />
         </LinearLayout>
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 

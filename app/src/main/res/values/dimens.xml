@@ -23,4 +23,8 @@
 
     <dimen name="sliding_slop">32dp</dimen>
 
+    <dimen name="sectionViewMinHeight">150dp</dimen>
+
+    <dimen name="sectionViewMaxHeight">300dp</dimen>
+
 </resources>
