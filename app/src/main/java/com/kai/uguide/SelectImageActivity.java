@@ -202,7 +202,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     }
 
     private void updateView(View view, LinearLayout.LayoutParams params, int scroll) {
-        int startScroll = 50;
+        int startScroll = 0;
         int range = (int) getResources().getDimension(R.dimen.sectionViewMaxHeight)
                 - (int) getResources().getDimension(R.dimen.sectionViewMinHeight);
 
@@ -240,7 +240,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
         mTitleView = (TextView) findViewById(R.id.title);
-        mTitleView.setText(getTitle());
+        mTitleView.setText("Singapore");
         setTitle(null);
 
         ViewTreeObserver vto = mScrollView.getViewTreeObserver();
