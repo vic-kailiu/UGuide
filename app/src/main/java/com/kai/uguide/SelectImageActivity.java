@@ -195,29 +195,30 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
             }
         }
 
-        updateView(introView, introParams, scrollY - lastScrollY);
-        updateView(mapView, mapParams, scrollY - lastScrollY);
+        updateView(introView, introParams, scrollY);
+        //updateView(mapView, mapParams, scrollY - lastScrollY);
 
         lastScrollY = scrollY;
     }
 
-    private void updateView(View view, LinearLayout.LayoutParams params, int delta) {
-        int[] locations = new int[2];
-        view.getLocationOnScreen(locations);
+    private void updateView(View view, LinearLayout.LayoutParams params, int scroll) {
+        int startScroll = 50;
+        int range = (int) getResources().getDimension(R.dimen.sectionViewMaxHeight)
+                - (int) getResources().getDimension(R.dimen.sectionViewMinHeight);
 
-        int range = 300;
-        if ( (locations[1] + 100 < deviceHeightHalf)
-            && (locations[1] + 100 > deviceHeightHalf - range) )
-            params.height -= delta;
+        double factor = 1.0 * Math.abs(scroll - (startScroll + range))/ range;
+        if (factor > 1)
+            return;
 
-        if ( (locations[1] + 100 > deviceHeightHalf)
-                && (locations[1] + 100 < deviceHeightHalf + range) )
-            params.height += delta;
+        params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight)
+                + (int) (range * (1 - factor * factor));
 
-        if (params.height > (int)getResources().getDimension(R.dimen.sectionViewMaxHeight))
-            params.height = (int)getResources().getDimension(R.dimen.sectionViewMaxHeight);
-        if (params.height < (int)getResources().getDimension(R.dimen.sectionViewMinHeight))
-            params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight);
+//        if (delta > 0)
+//            params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight)
+//                    + delta;
+//        if (delta < 0)
+//            params.height = (int)getResources().getDimension(R.dimen.sectionViewMaxHeight)
+//                    - delta;
 
         view.setLayoutParams(params);
     }
