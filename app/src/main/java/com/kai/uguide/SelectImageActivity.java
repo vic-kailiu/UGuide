@@ -1,7 +1,5 @@
 package com.kai.uguide;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -217,15 +215,13 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
 
     private void updateView(View view, LinearLayout.LayoutParams params, int scroll) {
         int startScroll = 0;
-        int range = (int) getResources().getDimension(R.dimen.sectionViewMaxHeight)
-                - (int) getResources().getDimension(R.dimen.sectionViewMinHeight);
+        int range = (int) getResources().getDimension(R.dimen.sectionViewMaxHeight) - (int) getResources().getDimension(R.dimen.sectionViewMinHeight);
 
         double factor = 1.0 * Math.abs(scroll - (startScroll + range))/ range;
         if (factor > 1)
             return;
 
-        params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight)
-                + (int) (range * (1 - factor * factor));
+        params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight) + (int) (range * (1 - factor));// * factor));
 
 //        if (delta > 0)
 //            params.height = (int)getResources().getDimension(R.dimen.sectionViewMinHeight)
@@ -302,6 +298,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         mAddbutton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                mFab.collapse();
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
@@ -312,6 +309,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFab.collapse();
 //                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 //                intent.addCategory(Intent.CATEGORY_OPENABLE);
 //                intent.setType("image/*");
@@ -321,6 +319,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFab.collapse();
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -344,6 +343,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         galleryeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFab.collapse();
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");

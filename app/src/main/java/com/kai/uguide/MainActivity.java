@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.KeyEvent;
@@ -16,18 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kai.uguide.utils.PicShrink;
 import com.qq.wx.img.imgsearcher.ImgListener;
 import com.qq.wx.img.imgsearcher.ImgResult;
 import com.qq.wx.img.imgsearcher.ImgSearcher;
 import com.qq.wx.img.imgsearcher.ImgSearcherState;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 
 public class MainActivity extends Activity implements ImgListener {
-
-    final static String TAG = "MainActivity";
 
     //Home Page Variable
     private static final String screKey = "eca6dc6c8f426ffe568ab9328c4be095e3ad91883bc4cd68";
@@ -68,71 +63,6 @@ public class MainActivity extends Activity implements ImgListener {
         }
     }
 
-    private void initMainUI() {
-        int foo = 1;
-    }
-
-//	private void initMainUI() {
-//		setContentView(R.layout.img_demo);
-//
-//		mCameraBtn = (Button) findViewById(R.id.camera_start);
-//		mCameraBtn.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				String filepath = null;
-//				boolean sdCardExist = Environment.getExternalStorageState()
-//						.equals(android.os.Environment.MEDIA_MOUNTED); //Judge SD card is present
-//				if (!sdCardExist) {
-//					/**
-//					 * Write mobile phone's internal storage
-//					 */
-//					@SuppressWarnings("deprecation")
-//					File mediaFilesDir = getDir("mediaFiles", Context.MODE_WORLD_READABLE);
-//					filepath = mediaFilesDir.getPath();
-//				}
-//				else {
-//					filepath = Environment.getExternalStorageDirectory().getPath()
-//							+ "/Tencent/mm";
-//					File outputpath = new File(filepath);
-//					if (!outputpath.exists()) {
-//						outputpath.mkdirs();
-//					}
-//				}
-//
-//				//**For test
-//				Date date = new Date();
-//				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-//				String dateStr = dateFormat.format(date);
-//				String imgType = ".jpg";
-//				imgFileName = filepath + "/" + dateStr + imgType;
-//				File imgFile = new File(imgFileName);
-//
-//				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//				Uri imageUri = Uri.fromFile(imgFile);
-//				//Specify a storage path(in SD card), workupload.jpg is a temp file, will be replaced after taking a picture.
-//				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//				cameraIntent.putExtra("imgFilename", imgFileName);
-//				startActivityForResult(cameraIntent, TAKE_PICTURE);
-//			}
-//		});
-//
-//		mAlbumBtn = (Button) findViewById(R.id.album);
-//		mAlbumBtn.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//				openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//				startActivityForResult(openAlbumIntent, FROM_ALBUM);
-//			}
-//		});
-//
-//		mTextView = (TextView) findViewById(R.id.start_searching);
-//	}
-
-    @SuppressWarnings("deprecation")
     private void initResultUI() {
         setContentView(R.layout.search_demo);
 
@@ -148,7 +78,7 @@ public class MainActivity extends Activity implements ImgListener {
                 // TODO Auto-generated method stub
                 int ret = ImgSearcher.shareInstance().cancel();
                 if (0 != ret) {
-                    initMainUI();
+                    finish();
                 }
             }
         });
@@ -158,7 +88,7 @@ public class MainActivity extends Activity implements ImgListener {
         byte[] imgByte = getJpg(bm);
         int ret = startImgSearching(imgByte);
         if (0 != ret) {
-            initMainUI();
+            finish();
         }
     }
 
@@ -186,7 +116,7 @@ public class MainActivity extends Activity implements ImgListener {
     public void onGetError(int errorCode) {
         // TODO Auto-generated method stub
         Toast.makeText(this, "ErrorCode = " + errorCode, Toast.LENGTH_LONG).show();
-        initMainUI();
+        finish();
     }
 
     @Override
@@ -231,42 +161,13 @@ public class MainActivity extends Activity implements ImgListener {
         if (ImgSearcherState.Canceling == state) {
             mTextView.setText("Cancelling...");
         } else if (ImgSearcherState.Canceled == state) {
-            initMainUI();
+            finish();
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("imgFileName", imgFileName);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {//result is not correct
-            return;
-        } else {
-
-            if (bm != null && !bm.isRecycled()) {
-                bm.recycle();
-            }
-            if (TAKE_PICTURE == requestCode) {
-                bm = PicShrink.compress(imgFileName);
-                File file = new File(imgFileName);
-                file.delete();
-            } else {
-                Uri uri = data.getData();
-                if (null != uri) {
-                    bm = PicShrink.compress(this, uri);
-                    if (null == bm) {
-                        return;
-                    }
-                } else {
-                    return;
-                }
-            }
-            initResultUI();
-        }
     }
 
     public byte[] getJpg(Bitmap bitmap) {

@@ -42,10 +42,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/TransparentActionNav"/>
         <activity
             android:name=".ResultActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/TransparentActionNav"/>
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"

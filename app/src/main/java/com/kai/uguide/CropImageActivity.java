@@ -1,5 +1,6 @@
 package com.kai.uguide;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,7 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
@@ -46,6 +49,42 @@ public class CropImageActivity extends Activity {
     }
 
     private void setCropLayout() {
+        // BEGIN_INCLUDE (inflate_set_custom_view)
+        // Inflate a "Done/Cancel" custom action bar view.
+        final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customActionBarView = inflater.inflate(
+                R.layout.actionbar_custom_view_done_cancel, null);
+        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // "Done"
+                        go_to_search();
+                        //finish();
+                    }
+                });
+        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // "Cancel"
+                        finish();
+                    }
+                });
+
+        // Show the custom action bar view and hide the normal Home icon and title.
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(
+                ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
+                        | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setCustomView(customActionBarView,
+                new ActionBar.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+        // END_INCLUDE (inflate_set_custom_view)
+
         setContentView(R.layout.activity_crop_image);
         cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
@@ -61,24 +100,9 @@ public class CropImageActivity extends Activity {
 
         float density  = getResources().getDisplayMetrics().density;
         Animation an = new RotateAnimation(0.0f, 360.0f, 32 * density, 32 * density);
-
         an.setDuration(2000);
         an.setRepeatCount(Animation.INFINITE);
         an.setRepeatMode(Animation.INFINITE);
-        //an.setFillAfter(false);              // DO NOT keep rotation after animation
-        //an.setFillEnabled(true);             // Make smooth ending of Animation
-//        an.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                img.setRotation(180.0f);      // Make instant rotation when Animation is finished
-//            }
-//        });
 
         img.startAnimation(an);
     }
@@ -152,7 +176,7 @@ public class CropImageActivity extends Activity {
         d = new BitmapDrawable(getResources(),  _stackBlurManager.process(30) );//processRenderScript(this, 20) );
     }
 
-    public void go_to_search(View view) {
+    public void go_to_search() {
         Intent i = new Intent(this, MainActivity.class);
 
         Bitmap compressed;
@@ -167,7 +191,7 @@ public class CropImageActivity extends Activity {
         i.putExtra("Image", compressed);
         startActivity(i);
 
-        finish();
+        //finish();
     }
 
 }

@@ -4,6 +4,7 @@
     <string name="app_name">UGuide</string>
     <string name="action_settings">Settings</string>
     <string name="album">Select from album</string>
+    <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="bt_start">Searching...</string>
     <string name="return_btn">Return</string>
@@ -20,7 +21,7 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="or">or</string>
-    <string name="title_activity_crop_image">CropImageActivity</string>
+    <string name="title_activity_crop_image">Loading Image...</string>
     <string name="next">Next(Search)</string>
     <string name="title_activity_text_to_speech">TextToSpeechActivity</string>
     <string name="Speak">Speak</string>
