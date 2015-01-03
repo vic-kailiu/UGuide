@@ -16,7 +16,6 @@
             android:contentDescription="@string/searched_image"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/download"
             android:layout_gravity="center" />
     </LinearLayout>
 
