@@ -1,5 +1,6 @@
 package com.kai.uguide;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -130,6 +131,8 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode != RESULT_OK)//result is not correct
+            return;
         //TODO: keep here for future options
 //        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 //            galleryAddPic();

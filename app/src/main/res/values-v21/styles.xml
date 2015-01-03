@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="FullScreen" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowAnimationStyle">@null</item>
@@ -21,15 +23,31 @@
         <item name="android:windowBackground">@drawable/bg_pure_light</item>
     </style>
 
-    <style name="FullScreen" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
-        <!--        <item name="android:textColorPrimary">@android:color/transparent</item>
-                <item name="android:navigationBarColor">@android:color/transparent</item>-->
+    <style name="TransparentActionNav" parent="@style/AppTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle.Transparent</item>
     </style>
 
     <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="NoActionTransparentNav" parent="AppTheme.Toolbar">
+        <item name="android:windowBackground">@drawable/bg</item>
+        <item name="android:navigationBarColor">@color/black_translucent</item>
+    </style>
+
+    <style name="ActionBarStyle.Transparent" parent="android:Widget.ActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="android:background">@color/black_translucent</item>
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:titleTextStyle">@style/ActionBarStyle.Transparent.TitleTextStyle</item>
+    </style>
+
+    <style name="ActionBarStyle.Transparent.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

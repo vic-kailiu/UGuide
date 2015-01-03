@@ -13,7 +13,7 @@ public class FixedIconTabsAdapter implements TabsAdapter {
     private Activity mContext;
 
     private int[] mIcons = {
-            R.drawable.groups, R.drawable.contacts, R.drawable.favourites
+            R.drawable.ic_route, R.drawable.icon_food, R.drawable.ic_shop, R.drawable.ic_hotel
     };
 
     public FixedIconTabsAdapter(Activity ctx) {

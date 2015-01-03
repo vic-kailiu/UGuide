@@ -54,7 +54,6 @@
             android:id="@+id/imgWeather"
             android:layout_toRightOf="@id/temp"
             android:layout_alignTop="@id/temp"
-            android:background="@drawable/circle"
             android:padding="4dp"/>
 
         <TextView

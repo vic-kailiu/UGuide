@@ -73,6 +73,8 @@ public class ResultActivity extends Activity {
         Intent i = new Intent(this, TextToSpeechActivity.class);
         i.putExtra("text", entries.get(0).summary);
         startActivity(i);
+
+        finish();
     }
 
     public void resultUI(boolean isFound) {

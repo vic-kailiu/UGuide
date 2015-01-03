@@ -11,18 +11,6 @@
     <com.edmodo.cropper.CropImageView
         android:id="@+id/CropImageView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/mButton" />
-
-    <Button
-        android:id="@+id/mButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:longClickable="false"
-        android:onClick="go_to_search"
-        android:text="@string/next" />
+        android:layout_height="fill_parent" />
 
 </RelativeLayout>
