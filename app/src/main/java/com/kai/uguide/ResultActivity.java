@@ -138,9 +138,6 @@ public class ResultActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent it = new Intent(this, MainActivity.class);
-            startActivity(it);
-            // Monitor the return key
             finish();
         }
         return super.onKeyDown(keyCode, event);

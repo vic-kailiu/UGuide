@@ -1,5 +1,6 @@
 package com.kai.uguide;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +10,19 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.qq.wx.img.imgsearcher.ImgListener;
 import com.qq.wx.img.imgsearcher.ImgResult;
 import com.qq.wx.img.imgsearcher.ImgSearcher;
@@ -26,12 +34,11 @@ public class MainActivity extends Activity implements ImgListener {
 
     //Home Page Variable
     private static final String screKey = "eca6dc6c8f426ffe568ab9328c4be095e3ad91883bc4cd68";
-    final int TAKE_PICTURE = 1;
-    final int FROM_ALBUM = 2;
+
     int mInitSucc = 0;
     //Result Page
-    private Button mCancelBtn;
     private TextView mTextView;
+    private View searchImageView;
     private Bitmap bm = null;
 
     private String imgFileName = null;
@@ -64,26 +71,71 @@ public class MainActivity extends Activity implements ImgListener {
     }
 
     private void initResultUI() {
+        // BEGIN_INCLUDE (inflate_set_custom_view)
+        // Inflate a "Done/Cancel" custom action bar view.
+        final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customActionBarView = inflater.inflate(
+                R.layout.action_bar_cancel, null);
+
+        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mTextView.setText("Cancelling...");
+                        // "Cancel"
+                        //int ret =
+                                ImgSearcher.shareInstance().cancel();
+//                        if (0 != ret) {
+//                            finish();
+//                        }
+                    }
+                });
+
+        // Show the custom action bar view and hide the normal Home icon and title.
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(
+                ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
+                        | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setCustomView(customActionBarView,
+                new ActionBar.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+        // END_INCLUDE (inflate_set_custom_view)
+
         setContentView(R.layout.search_demo);
 
-        LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.staff);
+        mTextView = (TextView) findViewById(R.id.searchTextView);
+        searchImageView = findViewById(R.id.searchImageView);
 
         Drawable mDrawable = new BitmapDrawable(getResources(), bm);
-        mLinearLayout.setBackgroundDrawable(mDrawable);
-        mCancelBtn = (Button) findViewById(R.id.cancel);
-        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+        searchImageView.setBackground(mDrawable);
+
+        final AnimatorSet set = new AnimatorSet();
+        ValueAnimator animator = new ValueAnimator();
+        set.play(animator);
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                YoYo.with(Techniques.FadeOutDown)
+                        .duration(1700)
+                        .playOn(findViewById(R.id.searchImageView));
+            }
 
             @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                int ret = ImgSearcher.shareInstance().cancel();
-                if (0 != ret) {
-                    finish();
-                }
+            public void onAnimationEnd(Animator animation) {
+                set.start();
             }
+
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
         });
 
-        mTextView = (TextView) findViewById(R.id.start_searching);
+        set.start();
 
         byte[] imgByte = getJpg(bm);
         int ret = startImgSearching(imgByte);
@@ -107,7 +159,6 @@ public class MainActivity extends Activity implements ImgListener {
             return 0;
         } else {
             Toast.makeText(this, "ErrorCode = " + ret, Toast.LENGTH_LONG).show();
-            ;
             return -1;
         }
     }
@@ -158,9 +209,10 @@ public class MainActivity extends Activity implements ImgListener {
 
     @Override
     public void onGetState(ImgSearcherState state) {
-        if (ImgSearcherState.Canceling == state) {
-            mTextView.setText("Cancelling...");
-        } else if (ImgSearcherState.Canceled == state) {
+//        if (ImgSearcherState.Canceling == state) {
+//            mTextView.setText("Cancelling...");
+//        } else
+        if (ImgSearcherState.Canceled == state) {
             finish();
         }
     }
@@ -183,10 +235,13 @@ public class MainActivity extends Activity implements ImgListener {
             if (bm != null && !bm.isRecycled()) {
                 bm.recycle();
             }
+            return (ImgSearcher.shareInstance().cancel() == 0?
+                    true:false) ;
             // Monitor the return key
-            finish();
+            //finish();
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
