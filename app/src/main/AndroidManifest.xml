@@ -77,8 +77,9 @@
         <!-- Goolge Maps API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyD0dVbqXHRsycsAvBQlurHbKg0iD6mPBXg" />  <!-- JING -->
-        <!-- Workstation    android:value="AIzaSyCu2XM85HnA2f6G7UhlSsgYuU-GAZiq414" /> -->
+            android:value="AIzaSyCu2XM85HnA2f6G7UhlSsgYuU-GAZiq414" />
+        <!-- JING           AIzaSyD0dVbqXHRsycsAvBQlurHbKg0iD6mPBXg  -->
+        <!-- Workstation    AIzaSyCu2XM85HnA2f6G7UhlSsgYuU-GAZiq414  -->
 
     </application>
 

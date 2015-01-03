@@ -2,19 +2,21 @@ package com.kai.uguide;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.qq.wx.img.imgsearcher.ImgListener;
 import com.qq.wx.img.imgsearcher.ImgResult;
@@ -38,7 +41,7 @@ public class MainActivity extends Activity implements ImgListener {
     int mInitSucc = 0;
     //Result Page
     private TextView mTextView;
-    private View searchImageView;
+    private ImageView searchImageView;
     private Bitmap bm = null;
 
     private String imgFileName = null;
@@ -47,6 +50,10 @@ public class MainActivity extends Activity implements ImgListener {
     private String mResUrl;
     private String mResMD5;
     private String mResPicDesc;
+
+    static boolean animated = false;
+    static boolean retrieved = false;
+    static boolean searchRet = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,25 +114,56 @@ public class MainActivity extends Activity implements ImgListener {
         setContentView(R.layout.search_demo);
 
         mTextView = (TextView) findViewById(R.id.searchTextView);
-        searchImageView = findViewById(R.id.searchImageView);
+        searchImageView = (ImageView) findViewById(R.id.searchImageView);
+        searchImageView.setImageBitmap(bm);
+        final View searchImageFrame = findViewById(R.id.searchImageFrame);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)searchImageFrame.getLayoutParams();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        params.height = displayMetrics.heightPixels / 2;
+        params.width = displayMetrics.widthPixels / 2;
+        searchImageFrame.setLayoutParams(params);
 
-        Drawable mDrawable = new BitmapDrawable(getResources(), bm);
-        searchImageView.setBackground(mDrawable);
+        ValueAnimator animator1 = ObjectAnimator.ofFloat(searchImageFrame, "alpha", (float)0.9, 1);
+        ValueAnimator animator2 = ObjectAnimator.ofFloat(searchImageFrame, "alpha", 1, (float)0.9);
+        //ValueAnimator animator3 = ObjectAnimator.ofFloat(searchImageFrame, "alpha", (float)0.9, 1);
+        animator1.setDuration(1500);
+        animator2.setDuration(1500);
+        //animator3.setDuration(1200);
 
         final AnimatorSet set = new AnimatorSet();
-        ValueAnimator animator = new ValueAnimator();
-        set.play(animator);
+        set.playSequentially(animator1, animator2);//, animator3);
         set.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                YoYo.with(Techniques.FadeOutDown)
-                        .duration(1700)
-                        .playOn(findViewById(R.id.searchImageView));
+                YoYo.with(Techniques.Landing)
+                        .duration(1000)
+                        .playOn(searchImageFrame);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        YoYo.with(Techniques.Flash)//Techniques.FadeOutUp)
+//                                .duration(700)
+//                                .playOn(searchImageFrame);
+//                    }
+//                }, 1700);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        YoYo.with(Techniques.ZoomOutUp)//Techniques.FadeOutUp)
+                                .duration(1000)
+                                .playOn(searchImageFrame);
+                    }
+                }, 1700);// * 2);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                set.start();
+                if (retrieved) {
+                    turnToResultActivity();
+                } else {
+                    animated = true;
+                    set.start();
+                }
             }
 
             @Override
@@ -173,7 +211,6 @@ public class MainActivity extends Activity implements ImgListener {
     @Override
     public void onGetResult(ImgResult result) {
         // TODO Auto-generated method stub
-        boolean ret = true;
         if (result != null) {
             if (1 == result.ret && result.res != null) {
                 int resSize = result.res.size();
@@ -185,26 +222,59 @@ public class MainActivity extends Activity implements ImgListener {
                         mResPicDesc = res.picDesc;
                     }
                 }
-                ret = true;
+                searchRet = true;
             } else {
-                ret = false;
+                searchRet = false;
             }
         }
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(200);
-        turnToResultActivity(ret);
+
+        retrieved = true;
+
+        if (animated)
+            turnToResultActivity();
     }
 
-    public void turnToResultActivity(boolean isFound) {
+    public void turnToResultActivity() {
+        if (!searchRet) {
+            noResultDialog();
+            return;
+        }
         Intent it = new Intent(this, ResultActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putBoolean("ret", isFound);
+        bundle.putBoolean("ret", searchRet);
         bundle.putString("url", mResUrl);
         bundle.putString("md5", mResMD5);
         bundle.putString("picDesc", mResPicDesc);
         it.putExtras(bundle);
         startActivity(it);
         finish();
+    }
+
+    private void noResultDialog()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(
+                MainActivity.this).create();
+        // Setting Dialog Title
+        alertDialog.setTitle("No Result");
+        // Setting Dialog Message
+        alertDialog.setMessage("So sorry that no result actually found for your picture, you can try take a higher quality one or in other angles  :) \n\nClick 'OK' to redirect you to home page");
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.earth_small);
+        // Setting OK Button
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Write your code here to execute after dialog closed
+                //Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(MainActivity.this, SelectImageActivity.class);
+                startActivity(it);
+                finish();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
     }
 
     @Override
