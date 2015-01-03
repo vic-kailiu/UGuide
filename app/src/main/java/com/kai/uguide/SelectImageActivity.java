@@ -1,6 +1,7 @@
 package com.kai.uguide;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -36,6 +37,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kai.uguide.fragment.CurrentWeatherFragment;
+import com.kai.uguide.fragment.WeatherFragment;
 import com.kai.uguide.utils.FileUtils;
 import com.kai.uguide.viewpageradapter.ExamplePagerAdapter;
 import com.kai.uguide.viewpageradapter.FixedIconTabsAdapter;
@@ -48,7 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class SelectImageActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class SelectImageActivity extends ActionBarActivity implements ObservableScrollViewCallbacks, WeatherFragment.WeatherEventListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_GALLERY = 2;
@@ -68,6 +71,11 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
 
     private int sectionViewMaxHeight;
     private int sectionViewMinHeight;
+
+    private View weatherView;
+
+    private View text_overlay;
+    private RelativeLayout.LayoutParams text_overlay_params;
 
     private FloatingActionsMenu mFab;
     private AddFloatingActionButton mAddbutton;
@@ -108,6 +116,8 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         }
 
         initializeViews();
+
+        initializeWeatherFrag();
     }
 
     @Override
@@ -147,6 +157,7 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
 
         // Change alpha of overlay
         ViewHelper.setAlpha(mOverlayView, Math.max(0, Math.min(1, (float) scrollY / flexibleRange)));
+        ViewHelper.setAlpha(weatherView, 1 - Math.max(0, Math.min(1, (float) scrollY / flexibleRange * 2)));
 
         // Scale title text
         float scale = 1 + Math.max(0, Math.min(MAX_TEXT_SCALE_DELTA, (flexibleRange - scrollY) / flexibleRange));
@@ -221,6 +232,9 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
 //                    - delta;
 
         view.setLayoutParams(params);
+
+        text_overlay_params.height = (int) (factor * 100.0);
+        text_overlay.setLayoutParams(text_overlay_params);
     }
 
     private void initializeScrollView() {
@@ -383,6 +397,19 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
         mFixedTabsAdapter = new FixedIconTabsAdapter(this);
         mFixedTabs.setAdapter(mFixedTabsAdapter);
         mFixedTabs.setViewPager(mPager);
+
+        text_overlay = findViewById(R.id.text_overlay);
+        text_overlay_params = (RelativeLayout.LayoutParams) text_overlay.getLayoutParams();
+    }
+
+    private void initializeWeatherFrag() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setTransitionStyle(R.style.fragmentAnim);
+        CurrentWeatherFragment cf = CurrentWeatherFragment.newInstance();
+        ft.add(R.id.currentWeatherFrag, cf, "currentWeather") ;
+        ft.commit();
+
+        weatherView = findViewById(R.id.currentWeatherFrag);
     }
 
     private void initViewPager(int pageCount, int backgroundColor, int textColor) {
@@ -497,4 +524,8 @@ public class SelectImageActivity extends ActionBarActivity implements Observable
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
+    @Override
+    public void requestCompleted() {
+
+    }
 }

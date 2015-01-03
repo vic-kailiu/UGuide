@@ -67,9 +67,16 @@
                     android:layout_alignParentEnd="false"
                     android:textSize="18dp"
                     android:layout_marginTop="26dp"
-                    android:layout_marginBottom="26dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp" />
+                <View
+                    android:id="@+id/text_overlay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/text_overlay" />
                 </RelativeLayout>
 
             <RelativeLayout
@@ -193,5 +200,13 @@
             app:fab_title="Capture via Camera" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentWeatherFrag"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/weatherbg" />
 
 </FrameLayout>
