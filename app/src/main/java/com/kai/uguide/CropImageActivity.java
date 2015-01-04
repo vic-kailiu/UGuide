@@ -164,10 +164,10 @@ public class CropImageActivity extends Activity {
         double screenRatio = 1.0 * displayMetrics.widthPixels / displayMetrics.heightPixels;
         double imgRatio = 1.0 * bitmap.getWidth() / bitmap.getHeight();
         if (imgRatio > screenRatio) {
-            width = (int) (bitmap.getWidth() / imgRatio);
+            width = (int) (height * screenRatio);
             x = (int) ((bitmap.getWidth() - width)/2);
         } else if (imgRatio < screenRatio) {
-            height  = (int) (bitmap.getHeight() * imgRatio);
+            height  = (int) (width / screenRatio);
             y = (int) ((bitmap.getHeight() - height)/2);
         }
         Bitmap fitImg = Bitmap.createBitmap(bitmap, x, y, width, height);

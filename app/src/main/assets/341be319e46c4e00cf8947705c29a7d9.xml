@@ -1,32 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<feed xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
-    xmlns:re="http://purl.org/atompub/rank/1.0"
-    xmlns="http://www.w3.org/2005/Atom">
-    <title type="text">Newest questions tagged android - Stack Overflow</title>
-    <link href="http://stackoverflow.com/feeds/tag?tagnames=android&amp;sort=newest" rel="self"
-        type="application/atom+xml" />
-    <link href="http://stackoverflow.com/questions/tagged/?tagnames=android&amp;sort=newest"
-        rel="alternate"
-        type="text/html" />
-    <subtitle>most recent 30 from stackoverflow.com</subtitle>
-    <updated>2014-12-27T03:51:32Z</updated>
-    <id>http://stackoverflow.com/feeds/tag?tagnames=android&amp;sort=newest</id>
-    <creativeCommons:license>http://www.creativecommons.org/licenses/by-sa/3.0/rdf
-    </creativeCommons:license>
+<feed>
     <entry>
         <id>http://stackoverflow.com/q/27664167</id>
-        <re:rank scheme="http://stackoverflow.com">0</re:rank>
-        <title type="text">How to convert images from jpg to png format?</title>
+        <title type="text">The world's most expensive building</title>
         <category scheme="http://stackoverflow.com/tags" term="android" />
+        <lati>1.283649</lati>
+        <longi>103.860346</longi>
         <author>
             <name>Dexter</name>
             <uri>http://stackoverflow.com/users/4397130</uri>
         </author>
-        <link href="http://stackoverflow.com/questions/27664167/how-to-convert-images-from-jpg-to-png-format"
-            rel="alternate" />
-        <published>2014-12-27T03:48:59Z</published>
-        <updated>2014-12-27T03:48:59Z</updated>
         <summary>Marina Bay Sands is an integrated resort fronting Marina Bay in Singapore.
             Developed by Las Vegas Sands (LVS), it is the world's most expensive building, at US$
             4.7billion, including the cost of the prime land.

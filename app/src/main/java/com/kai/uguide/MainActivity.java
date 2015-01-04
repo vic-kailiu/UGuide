@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements ImgListener {
     static boolean animated = false;
     static boolean retrieved = false;
     static boolean searchRet = false;
+    static boolean handled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -237,6 +238,10 @@ public class MainActivity extends Activity implements ImgListener {
     }
 
     public void turnToResultActivity() {
+        if (handled)
+            return;
+
+        handled = true;
         if (!searchRet) {
             noResultDialog();
             return;

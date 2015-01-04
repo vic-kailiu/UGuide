@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed>
+    <entry>
+        <id>http://stackoverflow.com/q/27664167</id>
+        <title type="text">ArtScience Museum</title>
+        <category scheme="http://stackoverflow.com/tags" term="android" />
+        <lati>1.286274</lati>
+        <longi>103.859266</longi>
+        <author>
+            <name>Dexter</name>
+            <uri>http://stackoverflow.com/users/4397130</uri>
+        </author>
+        <summary>ArtScience Museum is one of the attractions at Marina Bay Sands. Opened on 17 February 2011 by Singapore's Prime Minister Lee Hsien Loong, it is the world's first ArtScience museum. Although it has a permanent exhibition, ArtScience Gallery, the ArtScience Museum mainly hosts touring exhibitions curated by other museums.</summary>
+    </entry>
+</feed>

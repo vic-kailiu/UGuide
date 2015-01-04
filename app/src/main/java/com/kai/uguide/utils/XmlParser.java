@@ -54,6 +54,8 @@ public class XmlParser {
         String title = null;
         String summary = null;
         String link = null;
+        double lati = 0;
+        double longi = 0;
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -65,11 +67,15 @@ public class XmlParser {
                 summary = readSummary(parser);
             } else if (name.equals("link")) {
                 link = readLink(parser);
+            } else if (name.equals("lati")) {
+                lati = readLati(parser);
+            } else if (name.equals("longi")) {
+                longi =  readLongi(parser);
             } else {
                 skip(parser);
             }
         }
-        return new Entry(title, summary, link);
+        return new Entry(title, summary, link, lati, longi);
     }
 
     // Processes title tags in the feed.
@@ -78,6 +84,20 @@ public class XmlParser {
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "title");
         return title;
+    }
+
+    private double readLati(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "lati");
+        double lati = Double.parseDouble( readText(parser) );
+        parser.require(XmlPullParser.END_TAG, ns, "lati");
+        return lati;
+    }
+
+    private double readLongi(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "longi");
+        double longi = Double.parseDouble( readText(parser) );
+        parser.require(XmlPullParser.END_TAG, ns, "longi");
+        return longi;
     }
 
     // Processes link tags in the feed.
@@ -140,11 +160,15 @@ public class XmlParser {
         public final String title;
         public final String link;
         public final String summary;
+        public final Double lati;
+        public final Double longti;
 
-        private Entry(String title, String summary, String link) {
+        private Entry(String title, String summary, String link, Double Lati, Double Longti) {
             this.title = title;
             this.summary = summary;
             this.link = link;
+            this.lati = Lati;
+            this.longti = Longti;
         }
     }
 }

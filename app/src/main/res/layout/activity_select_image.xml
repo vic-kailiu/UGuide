@@ -65,7 +65,7 @@
                     android:text="@string/intro_singapore"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="false"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_marginTop="26dp"
                     android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
@@ -164,9 +164,6 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
@@ -181,7 +178,7 @@
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/white"
             app:fab_colorPressed="@color/white_pressed"
-            app:fab_title="Profile" />i
+            app:fab_title="Profile" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/gallery"
@@ -205,7 +202,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/currentWeatherFrag"
-        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/weatherbg" />
 

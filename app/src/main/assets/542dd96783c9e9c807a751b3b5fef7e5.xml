@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed>
+    <entry>
+        <id>http://stackoverflow.com/q/27664167</id>
+        <title type="text">Merlion</title>
+        <category scheme="http://stackoverflow.com/tags" term="android" />
+        <lati>1.286848</lati>
+        <longi>103.854532</longi>
+        <author>
+            <name>Dexter</name>
+            <uri>http://stackoverflow.com/users/4397130</uri>
+        </author>
+        <summary>The Merlion is the national personification of Singapore. The body symbolises Singapore's humble beginnings as a fishing village when it was called Temasek, meaning 'sea town' in Old Javanese. Its head represents Singapore’s original name, Singapura, or ‘lion city’ in Malay. Today, you can glimpse this legend at Merlion Park. Spouting water from its mouth, the Merlion statue stands tall at 8.6 metres and weighs 70 tonnes. This icon is a ‘must-see’ for tourists visiting Singapore, similar to other significant landmarks around the world. Built by local craftsman Lim Nang Seng, it was unveiled on 15 September 1972 by then Prime Minister Lee Kuan Yew at the mouth of the Singapore River, to welcome all visitors to Singapore.</summary>
+    </entry>
+</feed>

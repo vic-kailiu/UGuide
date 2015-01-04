@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed>
+    <entry>
+        <id>http://stackoverflow.com/q/27664167</id>
+        <title type="text">the Esplanade</title>
+        <category scheme="http://stackoverflow.com/tags" term="android" />
+        <lati>1.289793</lati>
+        <longi>103.855817</longi>
+        <author>
+            <name>Dexter</name>
+            <uri>http://stackoverflow.com/users/4397130</uri>
+        </author>
+        <summary>There are few buildings in Singapore as eye-catching as Esplanade, a world-class performing arts centre made up of two rounded frames fitted with over 7,000 triangle glass sunshades. Locals have dubbed them "the Durian", as the twin structures resemble the spiky tropical fruit that is unique to this part of the world. And as with the strong, some might say pungent, smelling national fruit of Singapore, every Singaporean has an opinion about the bold design of Esplanade. Love it or not, the space has become synonymous with the country, a funky complement to the symmetry of Marina Bay Sands and the Singapore Flyer that sit near by. The Esplanade is one of the busiest, and architecturally captivating, performing arts centres in the region. Designed by leading local firm DP Architects, the space features a 1,600-seat Concert Hall where the Singapore Symphony Orchestra and and other local, regional and international music acts regularly perform.</summary>
+    </entry>
+</feed>

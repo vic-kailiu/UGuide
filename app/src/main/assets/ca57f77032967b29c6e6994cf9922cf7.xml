@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed>
+    <entry>
+        <id>http://stackoverflow.com/q/27664167</id>
+        <title type="text">Singapore Flyer</title>
+        <category scheme="http://stackoverflow.com/tags" term="android" />
+        <lati>1.289299</lati>
+        <longi>103.863137</longi>
+        <author>
+            <name>Dexter</name>
+            <uri>http://stackoverflow.com/users/4397130</uri>
+        </author>
+        <summary>Located in the heart of downtown Marina Bay, the Singapore Flyer is now Asia's largest giant observation wheel. More importantly, it is high on thrills for tourists and locals alike. Step into one of the 28 fully air-conditioned glass capsules, and be transported on a 30-minute journey of stunning day and night scenes. From your capsule on top of the world, feast your eyes on iconic and historical landmarks and views from Marina Bay to the Singapore River, such as Raffles Place, Merlion Park, Empress Place and the Padang. With any luck, you’ll be able to spot landmarks up to 45 kilometres away, like Changi Airport, Sentosa Island and parts of Malaysia and Indonesia.</summary>
+    </entry>
+</feed>
